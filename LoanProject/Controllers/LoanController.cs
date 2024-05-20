@@ -15,4 +15,51 @@ public class LoanController : Controller
         IEnumerable<LoanModel> loans = _db.Loans;
         return View(loans);
     }
+
+    [HttpGet]
+    public IActionResult Register()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    public IActionResult Edit(int? id)
+    {
+        if (id == null || id == 0)
+        {
+            return NotFound();
+        }
+
+        LoanModel loan = _db.Loans.FirstOrDefault(x => x.Id == id);
+
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Register(LoanModel loan)
+    {
+        if (ModelState.IsValid)
+        {
+            _db.Loans.Add(loan);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult Edit(LoanModel loan)
+    {
+        if (ModelState.IsValid)
+        {
+            _db.Loans.Update(loan);
+            _db.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        return View(loan);
+    }
 }
