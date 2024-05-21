@@ -32,7 +32,30 @@ public class LoanController : Controller
 
         LoanModel loan = _db.Loans.FirstOrDefault(x => x.Id == id);
 
-        return View();
+        if (loan == null) 
+        {
+            return NotFound();
+        }
+
+        return View(loan);
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int? id) 
+    {
+        if (id == null || id == 0)
+        {
+            return NotFound();
+        }
+
+        LoanModel loan = _db.Loans.FirstOrDefault(x => x.Id == id);
+
+        if (loan == null)
+        {
+            return NotFound();
+        }
+
+        return View(loan);
     }
 
     [HttpPost]
@@ -61,5 +84,19 @@ public class LoanController : Controller
         }
 
         return View(loan);
+    }
+
+    [HttpPost]
+    public IActionResult Delete(LoanModel loan) 
+    {
+        if (loan == null) 
+        {
+            return NotFound();
+        }
+
+        _db.Loans.Remove(loan);
+        _db.SaveChanges();
+
+        return RedirectToAction("Index");   
     }
 }
