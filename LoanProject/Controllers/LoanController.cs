@@ -66,8 +66,12 @@ public class LoanController : Controller
             _db.Loans.Add(loan);
             _db.SaveChanges();
 
+            TempData["SuccessMessage"] = "Record added succesfully!";
+
             return RedirectToAction("Index");
         }
+
+        TempData["ErrorMessage"] = "Record not added!";
 
         return View();
     }
@@ -80,8 +84,12 @@ public class LoanController : Controller
             _db.Loans.Update(loan);
             _db.SaveChanges();
 
+            TempData["SuccessMessage"] = "Editing completed successfully!";
+
             return RedirectToAction("Index");
         }
+
+        TempData["ErrorMessage"] = "Record not Edited!";
 
         return View(loan);
     }
@@ -96,6 +104,8 @@ public class LoanController : Controller
 
         _db.Loans.Remove(loan);
         _db.SaveChanges();
+
+        TempData["SuccessMessage"] = "Delete completed successfully!";
 
         return RedirectToAction("Index");   
     }
